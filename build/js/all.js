@@ -52,12 +52,10 @@ $(function() {
         event.preventDefault();
         $('.b-popup').removeClass('b-popup_display');
         $('.b-popup').addClass('b-popup_not_display');
-        $('html, body').addClass('not_scroll'); 
     });
 
     $('.close-button').on('click', function() {
         $('.b-popup').addClass('b-popup_display');
-        $('html, body').removeClass('not_scroll');
     })
 
     $('.up-bar__left li a').on('click', function(event) {
