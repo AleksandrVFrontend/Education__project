@@ -1,7 +1,26 @@
 
 $(function() {
-
-
+    
+    let call = $('.call-me'),
+        modal = $('.b-popup'),
+        closer = $('.close-button'),
+        menu = $('.up-bar__left li a'),
+        menuLeft = $('.up-bar__left'),
+        menuButton = $('.up-bar__button')
+        body = $('html, body'),
+        clickButton = $('.click-me'),
+        footer = $('.footer__left li a'),
+        click = $('.click-me'),
+        modalButton = $('.up-bar__button'),
+        burger =  $('.button-burger'),
+        littleModal = $('.a-popup'),
+        a = $('.a-popup'),
+        modalForm = $('.input-form-tel'),
+        swiperContainer = $('.swiper-container')
+        props = $('.props span'),
+        buttonPrev = $('.swiper-button-prev'),
+        buttonNext = $('.swiper-button-next');            
+    
     $('.input-form-tel').inputmask({"mask": "+7(999) 999-9999"});
 
     $('form').each(function() {
@@ -10,8 +29,8 @@ $(function() {
             rules: {
 
                 Телефон: {
-                   required: true,
-                   minlength: 10,
+                    required: true,
+                    minlength: 10,
                 },
                 Имя: {
                     required: true,
@@ -47,37 +66,132 @@ $(function() {
         });
     });
 
-   
-    $('.call-me').on('click', function(event) {
-        event.preventDefault();
-        $('.b-popup').removeClass('b-popup_display');
-        $('.b-popup').addClass('b-popup_not_display');
+    var mySwiper = new Swiper (swiperContainer, {
+        loop: true,
+        slidesPerView:3,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true,
+        },
+        breakpoints: {
+        0: {
+            slidesPerView: 1,
+            },
+        
+        720: {
+            slidesPerView: 2,
+        },
+        1201: {
+            slidesPerView: 3,
+        },
+        }
+
     });
 
-    $('.close-button').on('click', function() {
-        $('.b-popup').addClass('b-popup_display');
+
+    $(modalButton).data('counter', 0).click(function(event) {
+        event.preventDefault();
+            let counter = $(this).data('counter'); 
+
+            $(this).data('counter', counter + 1);        
+            
+            let b = $(this).data('counter');
+
+            if(b%2 !== 0) {
+
+                $(body).toggleClass('not_scroll');
+                $(menuLeft).toggleClass('up-bar__left_display');
+                $(menuLeft).toggleClass('fon-open');
+                $(menuLeft).toggleClass('fon-open__li');
+                $(menuButton).toggleClass('up-bar__button__ul__off');
+
+            } else {
+                
+                $(menuLeft).toggleClass('up-bar__left_display');
+                $(menuButton).toggleClass('up-bar__button__ul__off');
+                $(body).toggleClass('not_scroll');
+                $(menuLeft).toggleClass('fon-open');
+                $(menuLeft).toggleClass('fon-open__li');
+            };      
+        });  
+        
+    function newRequest() {
+        let name = $('#input__text'),
+            phone = $('#input__text'),
+            nameVal = $(name).val(),
+            phoneVal = $(phone).val();
+    
+        if(nameVal.length >2 && phoneVal.length >2) {
+            
+
+            $(modal).addClass('b-popup_display');
+            $(littleModal).removeClass('a-popup_display');
+            
+            nameVal = $('#input__text').val('');
+            phoneVal = $('#input__tel').val('');
+
+        }   else {
+
+            $(burger).on('click', function(event) {
+                event.preventDefault()
+            });
+            $(name).addClass('error');
+            $(phone).addClass('error');  
+        }; 
+    };
+
+     
+    $(burger).on('click', newRequest);
+    
+   
+    $(call).on('click', function(event) {
+        event.preventDefault();
+        $(modal).removeClass('b-popup_display');
+        $(modal).addClass('b-popup_not_display');
+    });
+
+    $(closer).on('click', function() {
+        $(modal).addClass('b-popup_display');
     })
 
-    $('.up-bar__left li a').on('click', function(event) {
+    $(menu).on('click', function(event) {
         event.preventDefault();
 
-        $('.up-bar__left').toggleClass('up-bar__left_display');
-        $('.up-bar__button').toggleClass('up-bar__button__ul__off');    
-        $('html, body').removeClass('not_scroll');
-        $('.up-bar__left').removeClass('fon-open');
-        $('.up-bar__left').removeClass('fon-open__li');
+        $(menuLeft).toggleClass('up-bar__left_display');
+        $(menuButton).toggleClass('up-bar__button__ul__off');    
+        $(body).removeClass('not_scroll');
+        $(menuLeft).removeClass('fon-open');
+        $(menuLeft).removeClass('fon-open__li');
 
         let href = $(this).attr('href');
 
-        let offset = $(href).offset().top+1/7*$(href).offset().top;
+        let offset = $(href).offset().top;
         
 
-        $('html, body').animate ({
+        $(body).animate ({
             scrollTop: offset,
         }, 500);
     });
 
-    $('.footer__left li a').on('click', function(event) {
+    $(clickButton).on('click', function(event){
+        event.preventDefault();
+
+        let dataHref = $(this).attr('data-href');
+
+        let offset = $(dataHref).offset().top;
+
+        $(body).animate ({
+            scrollTop: offset,
+        }, 500);
+
+    })
+
+    $(footer).on('click', function(event) {
         event.preventDefault();
         
 
@@ -86,114 +200,39 @@ $(function() {
         let offset = $(href).offset().top;
         
 
-        $('html, body').animate ({
+        $(body).animate ({
             scrollTop: offset,
         }, 500);
     });
 
-    $('.up-bar__button').data('counter', 0).click(function(event) {
-        event.preventDefault();
-            let counter = $(this).data('counter'); 
-    
-            $(this).data('counter', counter + 1);        
-            
-            let b = $(this).data('counter');
-    
-            if(b%2 !== 0) {
-    
-                $('html, body').toggleClass('not_scroll');
-                $('.up-bar__left').toggleClass('up-bar__left_display');
-                $('.up-bar__left').toggleClass('fon-open');
-                $('.up-bar__left').toggleClass('fon-open__li');
-                $('.up-bar__button').toggleClass('up-bar__button__ul__off');
-    
-            } else {
-                
-                $('.up-bar__left').toggleClass('up-bar__left_display');
-                $('.up-bar__button').toggleClass('up-bar__button__ul__off');
-                $('html, body').toggleClass('not_scroll');
-                $('.up-bar__left').toggleClass('fon-open');
-                $('.up-bar__left').toggleClass('fon-open__li');
-            };      
-        });   
 
-        var mySwiper = new Swiper ('.swiper-container', {
-            loop: true,
-            slidesPerView:3,
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-          },
-          pagination: {
-              el: '.swiper-pagination',
-              type: 'bullets',
-              clickable: true,
-          },
-          breakpoints: {
-            0: {
-                slidesPerView: 1,
-              },
-         
-            720: {
-              slidesPerView: 2,
-            },
-            1201: {
-              slidesPerView: 3,
-            },
-          }
-
-        });
-
-    
-    
-
-
-    function addApll() {
-        let name = $('#input__text').val(),
-            phone = $('#input__tel').val();
-
-    
-        if(name.length >1 && phone.length !==0) {
-
-            $('.b-popup').addClass('b-popup_display');
-            $('.a-popup').removeClass('a-popup_display');
-            
-            name = $('#input__text').val('');
-            phone = $('#input__tel').val('');
-
-        }   else {
-
-            $('.button-burger').on('click', function(event) {
-                event.preventDefault()
-            });
-            $('#input__text').addClass('error');
-            $('#input__tel').addClass('error');  
-        }; 
-    };
-
- 
-    $('.button-burger').on('click', addApll);
-    
-
-    $('.a-button').on('click', function() {
-        $('.a-popup').addClass('a-popup_display');
-        $('html, body').removeClass('not_scroll');
+    $(a).on('click', function() {
+        $(littleModal).addClass('a-popup_display');
+        $(body).removeClass('not_scroll');
     });
 
     
+    $(call).on('mouseover', function(){
+        $(this).addClass('mouse-over')
+    });
 
-    
+    $(click).on('mouseover', function(){
+        $(this).addClass('mouse-over')
+    });
 
-    
+    $(props).on('mouseover', function(){
+        $(this).addClass('mouse-over')
+    });
 
+    $(buttonPrev).on('mouseover', function(){
+        $(this).addClass('inher-size')
+    });
     
-               
-                
-  
+    $(buttonNext).on('mouseover', function(){
+        $(this).addClass('inher-size')
+    });  
     
-        
-
-    
+     
 })  
 
 
